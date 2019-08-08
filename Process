@@ -1,0 +1,209 @@
+Investigation of Evolving Neural Networks through Augmenting Typologies 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Described Sections:
+    1. Motivation(Page: )
+        ◦ Neat Short()
+    2. Concerns and design decisions()
+    3. Structure
+    4. Process()
+    5. Proposed Structure and implementation
+    6. Finished Tests and comparisons
+    7. Works cited
+    8. Future and ongoing work
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Motivation:
+There are many different machine learning models out in the world today, and expanding on the different techniques used is important in growing an understanding and capability to work with and advance different machine learning techniques. 
+This is an in depth investigation of NEAT (Neurological Evolving Augmenting Typologies).
+NEAT Short:
+NEAT stands for Neurological Evolution of Augmenting Typologies. And uses genetics and natural selection to gradually build the best neural network. 
+    • A progressive evolution of a network for both weights, and topology could save time of people trying to decide on the topology of networks for a particular problem.(Gruau et al. 1996) Although Enforced sub populations(ESP)(Gomex and miikkulainen,1999) proved it could be done X5 faster, by simply restarting with a random number of hidden neurons whenever it became stuck. 
+        ◦ ”attempt to prove Gruau right, if done right the evolving structure along with connection weights can significantly enhance the performance of NE(Neurological Evolution)”(Kenneth O. Stanley and Risto Miikkulainen (2002)).
+        ◦ (Kenneth O. Stanley and Risto Miikkulainen (2002)) address 
+            ▪ Is there a genetic representation that allows disparate typologies to cross over in a meaningful way.
+            ▪ How can topological innovation that needs a few generations to be optimized be protected so that it does not disappear from the population prematurely.
+            ▪ How can topology be minimized through evolution without the need for a specially contrived fitness function that measures complexity?
+As described here are a few of the described/Proposed advantages of NEAT Network evolution:
+    • Employing a principled method of crossover of different typologies
+    • Protecting structural innovation using specialization
+    • Incrementally growing from minimal structure
+      
+
+Further references(Link:http://www.asimovinstitute.org/neural-network-zoo-prequel-cells-layers/) describe different Neural Network cells such as:
+    • Recurrent weights(Grouped by color), 
+    • Recurrent Cell(previous iteration)
+    • Feed forward cell(Basic cell)
+    • GRU Cell
+    • LSTM Cell
+      
+Being able to dynamically use NEAT, and different machine learning methods, there should be a general structure between each machine learning methods, in order to easily implement and compare each model. 
+
+According to (Kenneth O. Stanley and Risto Miikkulainen (2002).), protecting innovations with specialization, is an attempt to prevent genes from prematurely dyeing out without more investigation. 
+
+
+
+      Competing conventions(2.2):
+    • One main problem with Competing conventions problem(Montana and Davis, 1989; Schaffer et al., 1992).
+    • Permutations problem(Radcliffe, 1993).
+
+Concerns and design decisions:
+
+Some concerns with building the NEAT Typology described from Kenneth O. Stanley and Risto Miikkulainen (2002). "Evolving Neural Networks Through Augmenting Topologies".
+
+Missing descriptions, and processes:
+    • 
+
+In order to keep this package flexible and capable of being used in comparison between other machine learning models, here are some prescribed structure decisions made to ensure easy maintenance and functionality:
+      
+Concerns with creating common simulation/interface structure:
+    1. Different simulation types:
+    • N players with turns.
+    • N players in real time.
+    2. Different input/output structures and displays.
+    • A real time strategy game might contain a 2D grid of the world, a spherical globe, or some other grid representation(Hexagonal grid from Civilization). 
+    • Additionally a turn base game might have intermediate steps where the player(s) might preform specific actions within an iterative step cycle: for example in the game: Settlers of Catan there are different phases: Gather resources, Trade, build, and buy development cards. 
+    • Shops showing ‘hidden’ in game menus, and resources(ie: items) allowing players to buy and sell items, and allowing for different tasks to be preformed only within menus. 
+    • Other games include a re-setup including building a deck of trading cards around a specific play style or strategy. This might be the majority of the thought process and training, to build the most effective deck around a given play style or composition. 
+How might these different steps/ turns be represented within a given set system and require minimal change, and modification? 
+    3. Different Possible moves and output spaces.
+    • Real Time strategy games contain several different moves for every possible position in the game: 
+        ◦ Move Unit to position
+        ◦ Create building at position 
+
+
+    • Given Functions associated with simulation:
+        ◦ Simulate Pregame (Function pointer)
+        ◦ Intermediate Steps (Functional decorator pattern)
+        ◦ Simulate Endgame (Function pointer?)
+Concerns regarding structure, and future structural and functional additions: 
+    • Functionality,:
+        ◦ Chance for different Hyper Parameters, (IE: internal Network Size, Network type). 
+        ◦ Chance to have back propagation, and maintain existing states to speed up BP, and include further functionality including Batch Normalization.
+        ◦  
+        ◦ Chance for different edge correspondence, 
+    • instead of each node representing an individual Node, they might blocks, with different 
+
+
+Structure
+
+
+Items 
+Genes 
+Gene structure contains the Innovation number associated with the mutation.
+    • NodeGene_t
+        ◦ Innovation Number
+        ◦ Node Number
+        ◦ Disabled Flag
+
+    • EdgeGene_t
+        ◦ Innovation Number
+        ◦ In/Out Nodes
+        ◦ Disabled Flag
+
+
+Innovation Number
+
+https://miro.medium.com/max/700/0*Kze4g6cLA3maofxq.png
+
+
+Process
+Here is the general control flow of the 
+Steps:
+    1. Simulation/Selection
+    2. Crossover/Reproduction 
+    3. Mutation
+
+
+
+These steps iterate until either a specified level of performance/fitness has been achieved or 
+
+    1. Selection
+Select different Parents to propagate, 
+NEAT emphasizes having less evolved species within the environment to create new effective genes.
+pseudo code:
+
+    2. Crossover/Reproduction
+
+https://miro.medium.com/max/700/0*AlgDyVgxlUCOlE0B.png
+https://miro.medium.com/max/700/0*N4j_sl8M05G6pXZV.png
+Crossover takes two parents and “Crosses” them where we use a Dominant/Recessive chance to pass on different genetics to children nodes. So, for example here is some pseudo code:
+If (Gene in both parents):
+Pick Random one Between them.
+Else:
+Child Gets Gene.
+
++ If Parent1 has a higher fitness score than Parent2, 
+    3. Mutation
+Chance to change a gene. Many times this actually hurts the fitness for the network to decrease. For example adding a new node introduces a non linearity where there was none before; where the network needs to re balance the different weights for each edge before finding a better fitness value. Protecting this innovation is important in order to try new structures before calling them off completely. 
+The system GNARL addresses this by adding a non functional structure. A node is added to a genome without any connections, in the hopes that it the future some useful connections will develop. However, nonfunctional structures may never end up connecting, and end up adding unnecessary complexity and memory.
+In order to attempt combating this, GNARL proposes 
+    • Create/Remove NodeGene_t:
+        ◦ Create: requires taking existing Edge and splitting in two.
+        ◦ Remove: Simply remove Node from list.
+        ◦ 
+        ◦ 
+    • Increase/Decrease weight in Gene:
+        ◦ Set Disabled flag to TRUE.
+        ◦ 
+
+https://miro.medium.com/max/446/0*hk8JqrWFbRiG04L2.jpg
+Add new node steps: 
+    1. If no edges exist, create one from input to output
+    2. Select an existing edge, and create node from
+    3. 
+
+
+Works Cited:
+http://www.asimovinstitute.org/author/fjodorvanveen/
+
+http://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf
+Kenneth O. Stanley and Risto Miikkulainen (2002). "Evolving Neural Networks Through Augmenting Topologies". Evolutionary Computation 10 (2): 99-127
+
+
+Future Work:
++Take NEAT and modify it for larger neural networks, so each ‘Node’ is a Block of neurons, each network is trained with back propagation.
+
++ Investigate other abstract machine learning methods, including the Neurological Turing machine(). 
